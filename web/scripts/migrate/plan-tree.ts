@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { EXCLUDED_PATHS } from "./corrections-data";
+import { EXCLUDED_PATHS, toArchiveRelative } from "./corrections-data";
 
 /**
  * Joins the Notion export (resources + their course relations) with
@@ -69,7 +69,7 @@ function main() {
       if (r.courseNotionIds.length) resWithCourseNoFile++;
       continue;
     }
-    if (exclusions.has(file.file_path)) continue; // student / non-ID
+    if (exclusions.has(toArchiveRelative(file.file_path))) continue; // student / non-ID
     const exists = existsSync(file.file_path);
     if (!exists) missingOnDisk++;
     for (const cid of r.courseNotionIds) {
