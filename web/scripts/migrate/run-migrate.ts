@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { METADATA_OVERRIDES } from "./corrections-data";
 import { randomUUID } from "node:crypto";
 import { inArray } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -66,6 +67,9 @@ async function main() {
     readFileSync(resolve(ROOT, "data/migrate/plan.json"), "utf8"),
   );
   const plan: Record<string, { files: PlannedFile[] }> = planDoc.plan;
+
+  // Grounded metadata corrections (title/author/year) keyed by file_path.
+  const overrides = METADATA_OVERRIDES;
 
   // 1) Clear content (NOT users) — courses delete cascades nodes + joins.
   console.log("Clearing content tables (users preserved)…");
@@ -182,6 +186,7 @@ async function main() {
       if ((uploaded + skipped) % 25 === 0) {
         console.log(`  …${uploaded + skipped}/${totalFiles} files`);
       }
+      const ov = overrides[f.filePath];
       await db.insert(nodes).values({
         id: nodeId,
         courseId,
@@ -194,8 +199,9 @@ async function main() {
         mimeType: mime,
         previewType: previewTypeFor(mime),
         resourceType: f.resourceType as (typeof nodes.$inferInsert)["resourceType"],
-        author: f.author,
-        description: f.title !== f.fileName ? f.title : null,
+        author: ov?.author ?? f.author,
+        year: ov?.year ?? null,
+        description: ov?.title ?? (f.title !== f.fileName ? f.title : null),
       });
     }
   }
