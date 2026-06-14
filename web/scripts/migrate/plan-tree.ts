@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { EXCLUDED_PATHS } from "./corrections-data";
 
 /**
  * Joins the Notion export (resources + their course relations) with
@@ -34,6 +35,9 @@ function main() {
   const map = JSON.parse(readFileSync(mapPath, "utf8"));
   const matched: Matched[] = map.matched ?? [];
 
+  // Excluded files (student deliverables / non-ID) — never place these.
+  const exclusions = EXCLUDED_PATHS;
+
   // resource notionId -> file
   const fileByResource = new Map<string, Matched>();
   for (const m of matched) fileByResource.set(m.page_id, m);
@@ -65,6 +69,7 @@ function main() {
       if (r.courseNotionIds.length) resWithCourseNoFile++;
       continue;
     }
+    if (exclusions.has(file.file_path)) continue; // student / non-ID
     const exists = existsSync(file.file_path);
     if (!exists) missingOnDisk++;
     for (const cid of r.courseNotionIds) {
