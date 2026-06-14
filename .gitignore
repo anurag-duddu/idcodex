@@ -1,0 +1,56 @@
+# ── Secrets / env ──
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ── OS ──
+.DS_Store
+
+# ── Node / Next.js (web/) ──
+node_modules/
+web/node_modules/
+web/.next/
+web/out/
+web/build/
+web/.vercel/
+web/next-env.d.ts
+*.tsbuildinfo
+
+# ── Python (legacy migration scripts) ──
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ── Brainstorm / scratch ──
+.superpowers/
+
+# ── Logs ──
+*.log
+npm-debug.log*
+
+# ── Test artifacts ──
+web/screenshots/
+web/test-results/
+web/playwright-report/
+
+# ── Large local data dumps (keep small JSON state by choice) ──
+# data/*.json   # uncomment if these grow large
+
+# ── Generated migration data ──
+data/migrate/
+
+# ── Docs / Markdown (repo is code-only, per project preference) ──
+*.md
+
+# ── Claude Code / agent tooling (not part of the codebase) ──
+.claude/
+.agents/
+.mcp.json
+skills-lock.json
+
+# ── Curriculum materials & migration data (sensitive / view-gated context) ──
+curriculum-related/
+data/
+reports/
