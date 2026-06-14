@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { METADATA_OVERRIDES } from "./corrections-data";
+import { METADATA_OVERRIDES, toArchiveRelative } from "./corrections-data";
 import { randomUUID } from "node:crypto";
 import { inArray } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -186,7 +186,7 @@ async function main() {
       if ((uploaded + skipped) % 25 === 0) {
         console.log(`  …${uploaded + skipped}/${totalFiles} files`);
       }
-      const ov = overrides[f.filePath];
+      const ov = overrides[toArchiveRelative(f.filePath)];
       await db.insert(nodes).values({
         id: nodeId,
         courseId,
