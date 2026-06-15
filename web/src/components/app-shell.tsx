@@ -1,15 +1,13 @@
 import { TopNav } from "@/components/top-nav";
 
 export function AppShell({
-  email,
   children,
 }: {
-  email: string | null;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <TopNav email={email} />
+      <TopNav />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
         {children}
       </main>

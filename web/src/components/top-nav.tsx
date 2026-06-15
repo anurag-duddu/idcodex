@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
 import { Wordmark } from "@/components/brand/wordmark";
 import { SearchBar } from "@/components/search-bar";
-import { AccountMenu } from "@/components/account-menu";
 import { COURSE_TYPES } from "@/lib/course-types";
 import { cn } from "@/lib/utils";
 
-export function TopNav({ email }: { email: string | null }) {
+export function TopNav() {
   const pathname = usePathname();
 
   return (
@@ -42,7 +42,7 @@ export function TopNav({ email }: { email: string | null }) {
 
         <div className="ml-auto flex items-center gap-3">
           <SearchBar />
-          <AccountMenu email={email} />
+          <UserButton />
         </div>
       </div>
 

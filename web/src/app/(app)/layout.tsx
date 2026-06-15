@@ -14,5 +14,5 @@ export default async function AppLayout({
   if (!email || !(await isAllowed(email))) {
     return <NoAccess email={email} />;
   }
-  return <AppShell email={email}>{children}</AppShell>;
+  return <AppShell>{children}</AppShell>;
 }
