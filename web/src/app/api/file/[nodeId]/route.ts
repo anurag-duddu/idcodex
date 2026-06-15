@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getCurrentUser } from "@/auth/session-cookie";
+import { getCurrentUserEmail } from "@/auth/current-user";
 import { isAllowed } from "@/auth/allowlist";
 import { getFileNode } from "@/db/queries/nodes";
 import { isRemoteUrl, signedUrlFor } from "@/lib/r2";
@@ -13,11 +13,11 @@ export async function GET(
   _req: NextRequest,
   ctx: { params: Promise<{ nodeId: string }> },
 ) {
-  const user = await getCurrentUser();
-  if (!user) {
+  const email = await getCurrentUserEmail();
+  if (!email) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
-  if (!(await isAllowed(user.email))) {
+  if (!(await isAllowed(email))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 

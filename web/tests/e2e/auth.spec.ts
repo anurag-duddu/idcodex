@@ -4,7 +4,7 @@ test("unauthenticated visit to a protected page redirects to sign-in", async ({
   page,
 }) => {
   await page.goto("/studio");
-  await expect(page).toHaveURL(/\/signin/);
+  await expect(page).toHaveURL(/\/sign-in/);
 });
 
 test("unauthenticated file API returns 401", async ({ request }) => {
