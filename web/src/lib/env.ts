@@ -7,7 +7,10 @@
  * must `import "dotenv/config"` before importing this module.
  */
 
-const REQUIRED = ["DATABASE_URL", "AUTH_SECRET", "APP_URL"] as const;
+// Auth is Clerk (its own NEXT_PUBLIC_CLERK_* / CLERK_SECRET_KEY vars are read by
+// @clerk/nextjs directly, not here). The former magic-link vars (AUTH_SECRET,
+// RESEND_API_KEY, AUTH_EMAIL_FROM) were dropped with that migration.
+const REQUIRED = ["DATABASE_URL", "APP_URL"] as const;
 const OPTIONAL = [
   "DATABASE_URL_UNPOOLED",
   "R2_ACCOUNT_ID",
@@ -16,8 +19,6 @@ const OPTIONAL = [
   "R2_BUCKET",
   "R2_ENDPOINT",
   "NOTION_API_KEY",
-  "RESEND_API_KEY",
-  "AUTH_EMAIL_FROM",
 ] as const;
 
 type RequiredKey = (typeof REQUIRED)[number];
