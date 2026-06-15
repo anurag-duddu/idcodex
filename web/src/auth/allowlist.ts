@@ -3,7 +3,15 @@ import { db } from "@/db/client";
 import { users } from "@/db/schema";
 
 /** Domains whose accounts are admitted automatically. */
-export const AUTO_DOMAINS = ["hawk.iit.edu", "iit.edu", "id.iit.edu"];
+export const AUTO_DOMAINS = [
+  // Current Illinois Tech domains (post-rebrand from iit.edu)
+  "hawk.illinoistech.edu",
+  "illinoistech.edu",
+  // Legacy IIT/ID domains (kept for transition + alumni still on old addresses)
+  "hawk.iit.edu",
+  "iit.edu",
+  "id.iit.edu",
+];
 
 /** Lowercased domain part of an email, or null if malformed. */
 export function emailDomain(email: string): string | null {
