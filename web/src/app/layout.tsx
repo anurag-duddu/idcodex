@@ -1,6 +1,7 @@
 import {ClerkProvider} from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { idColors } from "@/theme/tokens";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,7 +33,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ClerkProvider
           afterSignOutUrl="/sign-in"
-          appearance={{ variables: { colorPrimary: "#cc0000" } }}
+          appearance={{ variables: { colorPrimary: idColors.ink } }}
         >
           {children}
         </ClerkProvider>
