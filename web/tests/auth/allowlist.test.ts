@@ -11,21 +11,21 @@ describe("emailDomain", () => {
 });
 
 describe("isAutoAllowedDomain", () => {
-  it("allows current Illinois Tech and legacy IIT/ID domains", () => {
+  it("allows the ID-only auto domains", () => {
+    expect(isAutoAllowedDomain("a@id.iit.edu")).toBe(true);
     expect(isAutoAllowedDomain("a@hawk.illinoistech.edu")).toBe(true);
     expect(isAutoAllowedDomain("a@illinoistech.edu")).toBe(true);
-    expect(isAutoAllowedDomain("a@hawk.iit.edu")).toBe(true);
-    expect(isAutoAllowedDomain("a@iit.edu")).toBe(true);
-    expect(isAutoAllowedDomain("a@id.iit.edu")).toBe(true);
   });
-  it("rejects others", () => {
+  it("rejects broad Illinois Tech and other domains", () => {
+    expect(isAutoAllowedDomain("a@iit.edu")).toBe(false);
+    expect(isAutoAllowedDomain("a@hawk.iit.edu")).toBe(false);
     expect(isAutoAllowedDomain("a@gmail.com")).toBe(false);
   });
 });
 
 describe("isAllowedEmail", () => {
   it("allows auto-domain accounts", () => {
-    expect(isAllowedEmail("student@hawk.iit.edu")).toBe(true);
+    expect(isAllowedEmail("student@hawk.illinoistech.edu")).toBe(true);
   });
   it("allows an explicitly allowlisted personal email (alumni)", () => {
     expect(

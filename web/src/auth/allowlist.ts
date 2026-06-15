@@ -2,15 +2,14 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users } from "@/db/schema";
 
-/** Domains whose accounts are admitted automatically. */
+/**
+ * Domains whose accounts are admitted automatically. ID Codex is ID-only, so
+ * this is deliberately narrow — not every Illinois Tech address.
+ */
 export const AUTO_DOMAINS = [
-  // Current Illinois Tech domains (post-rebrand from iit.edu)
-  "hawk.illinoistech.edu",
-  "illinoistech.edu",
-  // Legacy IIT/ID domains (kept for transition + alumni still on old addresses)
-  "hawk.iit.edu",
-  "iit.edu",
-  "id.iit.edu",
+  "id.iit.edu", // ID students/alumni on the legacy domain
+  "hawk.illinoistech.edu", // current students (post-rebrand)
+  "illinoistech.edu", // faculty/staff
 ];
 
 /** Lowercased domain part of an email, or null if malformed. */
