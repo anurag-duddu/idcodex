@@ -34,7 +34,7 @@ export function SigninForm() {
       <Input
         type="email"
         name="email"
-        placeholder="you@hawk.iit.edu"
+        placeholder="you@hawk.illinoistech.edu"
         required
         autoFocus
         aria-label="Email address"

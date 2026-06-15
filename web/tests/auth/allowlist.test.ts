@@ -11,7 +11,9 @@ describe("emailDomain", () => {
 });
 
 describe("isAutoAllowedDomain", () => {
-  it("allows IIT/ID domains", () => {
+  it("allows current Illinois Tech and legacy IIT/ID domains", () => {
+    expect(isAutoAllowedDomain("a@hawk.illinoistech.edu")).toBe(true);
+    expect(isAutoAllowedDomain("a@illinoistech.edu")).toBe(true);
     expect(isAutoAllowedDomain("a@hawk.iit.edu")).toBe(true);
     expect(isAutoAllowedDomain("a@iit.edu")).toBe(true);
     expect(isAutoAllowedDomain("a@id.iit.edu")).toBe(true);
