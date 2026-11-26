@@ -4,8 +4,11 @@ import { countCoursesByType } from "@/db/queries/courses";
 import { getRecentFiles } from "@/db/queries/nodes";
 import { COURSE_TYPES } from "@/lib/course-types";
 import { FileGlyph } from "@/components/file-icon";
+import { isMember } from "@/auth/member";
 
 export default async function HomePage() {
+  // Non-members get <NoAccess> from the layout; read nothing here (see auth/member.ts).
+  if (!(await isMember())) return null;
   const [counts, recent] = await Promise.all([
     countCoursesByType(),
     getRecentFiles(8),

@@ -10,6 +10,7 @@ import {
 import { Breadcrumb, type Crumb } from "@/components/breadcrumb";
 import { NodeBrowser } from "@/components/node-browser";
 import { FilePreview } from "@/components/file-preview";
+import { isMember } from "@/auth/member";
 
 async function resolve(type: string, course: string, path: string[]) {
   if (!isCourseType(type)) return null;
@@ -26,6 +27,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ type: string; course: string; path: string[] }>;
 }): Promise<Metadata> {
+  // A title is part of the response: never name anything to a non-member.
+  if (!(await isMember())) return {};
   const { type, course, path } = await params;
   const r = await resolve(type, course, path);
   return { title: r?.target.name ?? "Not found" };
@@ -38,6 +41,8 @@ export default async function PathPage({
   params: Promise<{ type: string; course: string; path: string[] }>;
   searchParams: Promise<{ view?: string }>;
 }) {
+  // Non-members get <NoAccess> from the layout; read nothing here (see auth/member.ts).
+  if (!(await isMember())) return null;
   const { type, course, path } = await params;
   const r = await resolve(type, course, path);
   if (!r) notFound();

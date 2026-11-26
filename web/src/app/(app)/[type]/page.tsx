@@ -3,12 +3,15 @@ import { notFound } from "next/navigation";
 import { isCourseType, courseTypeLabel } from "@/lib/course-types";
 import { listCoursesByType } from "@/db/queries/courses";
 import { CourseCard } from "@/components/course-card";
+import { isMember } from "@/auth/member";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ type: string }>;
 }): Promise<Metadata> {
+  // A title is part of the response: never name anything to a non-member.
+  if (!(await isMember())) return {};
   const { type } = await params;
   return {
     title: isCourseType(type) ? `${courseTypeLabel(type)} courses` : "Courses",
@@ -20,6 +23,8 @@ export default async function TypePage({
 }: {
   params: Promise<{ type: string }>;
 }) {
+  // Non-members get <NoAccess> from the layout; read nothing here (see auth/member.ts).
+  if (!(await isMember())) return null;
   const { type } = await params;
   if (!isCourseType(type)) notFound();
   const courses = await listCoursesByType(type);

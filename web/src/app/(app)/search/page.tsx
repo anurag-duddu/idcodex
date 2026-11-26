@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { searchCourses } from "@/db/queries/courses";
 import { CourseCard } from "@/components/course-card";
+import { isMember } from "@/auth/member";
 
 export const metadata: Metadata = { title: "Search" };
 
@@ -9,6 +10,8 @@ export default async function SearchPage({
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
+  // Non-members get <NoAccess> from the layout; read nothing here (see auth/member.ts).
+  if (!(await isMember())) return null;
   const { q = "" } = await searchParams;
   const query = q.trim();
   const results = query ? await searchCourses(query) : [];
